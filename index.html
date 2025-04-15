@@ -3,84 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kel's Unlocked Games</title>
+    <title>03 Mini the Professional</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
     <header>
         <div class="container">
-            <div class="logo">
-                <a href="#">Kel's Unlocked Games</a>
-            </div>
+            <h1 class="logo">03 Mini the Professional</h1>
             <nav>
                 <ul>
-                    <li><a href="#home" class="active">Home</a></li>
-                    <li><a href="#games">Games</a></li>
-                    <li><a href="#admin" class="btn-primary">Admin</a></li>
+                    <li><a href="#intro" class="active">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <div class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section id="intro" class="hero">
         <div class="container">
-            <div class="hero-content">
-                <h1>Welcome to Kel's Unlocked Games</h1>
-                <p>Your ultimate destination for free, unlocked games. Explore, download, and enjoy!</p>
+            <h2>Welcome to 03 Mini the Professional</h2>
+            <p>We craft elegant digital solutions that exude professionalism and modern design.</p>
+            <a href="#portfolio" class="btn">View Portfolio</a>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <h3>Web Design</h3>
+                    <p>Minimalistic yet striking designs that communicate your brand effectively.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Development</h3>
+                    <p>Professional and efficient coding to build robust, scalable websites.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Branding</h3>
+                    <p>Creating compelling brand identities that stand out in the market.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Games Section -->
-    <section id="games" class="games">
+    <section id="portfolio">
         <div class="container">
-            <h2>Available Games</h2>
-            <div id="games-list">
-                <!-- Dynamic list of games will be displayed here -->
+            <h2>Portfolio</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x300" alt="Project 1">
+                    <div class="portfolio-overlay">
+                        <h3>Project One</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x300" alt="Project 2">
+                    <div class="portfolio-overlay">
+                        <h3>Project Two</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x300" alt="Project 3">
+                    <div class="portfolio-overlay">
+                        <h3>Project Three</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Admin Section -->
-    <section id="admin" class="admin">
+    <section id="contact">
         <div class="container">
-            <h2>Admin Panel</h2>
-            <form id="upload-form">
-                <label for="game-name">Game Name:</label>
-                <input type="text" id="game-name" placeholder="Enter game name" required>
-                <label for="folder-upload">Upload Game Folder:</label>
-                <input type="file" id="folder-upload" webkitdirectory required>
-                <button type="submit" class="btn-primary">Upload</button>
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
             </form>
-            <div id="admin-actions">
-                <h3>Manage Uploaded Games</h3>
-                <ul id="uploaded-games">
-                    <!-- List of uploaded games with remove and download buttons -->
-                </ul>
-            </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Kel's Unlocked Games. All Rights Reserved.</p>
+            <p>&copy; 2025 03 Mini the Professional. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>
