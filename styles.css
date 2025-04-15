@@ -1,64 +1,61 @@
 /* General Styling */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
-  }
-  
-  header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-  }
-  
-  header p {
-    font-size: 1.2rem;
-    margin: 0;
-  }
-  
-  form label {
-    font-weight: bold;
-  }
-  
-  #games-list ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  #games-list li {
-    margin: 0.5em 0;
-    padding: 1em;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  #games-list li a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  #games-list li a:hover {
-    text-decoration: underline;
-  }
-  
-  footer {
-    margin-top: 2em;
-  }
-  
-  /* Admin Panel Visibility */
-  .admin-only {
-    display: none; /* Only visible to the admin */
-  }
-  
-  /* Mobile Responsiveness */
-  @media (max-width: 768px) {
-    header h1 {
-      font-size: 2rem;
-    }
-  
-    header p {
-      font-size: 1rem;
-    }
-  }
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+}
+
+header {
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  color: white;
+}
+
+header h1 {
+  font-weight: 700;
+  font-size: 3.5rem;
+}
+
+header p {
+  font-size: 1.25rem;
+}
+
+header button {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+section h2 {
+  font-weight: 700;
+  color: #343a40;
+}
+
+footer {
+  background-color: #343a40;
+}
+
+footer p {
+  margin: 0;
+}
+
+.admin-only {
+  display: none; /* Visible only after login */
+}
+
+#games-container .card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#games-container .card img {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+#games-container .card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #007bff;
+}
+
+#games-container .card-text {
+  color: #6c757d;
+}
