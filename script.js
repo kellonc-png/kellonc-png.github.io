@@ -30,28 +30,37 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Handle game upload
+// Handle folder upload
 const uploadForm = document.getElementById('upload-form');
+const folderUpload = document.getElementById('folder-upload');
 const gamesList = document.getElementById('games-list');
 const uploadedGames = document.getElementById('uploaded-games');
 let games = []; // Local array to store game data
 
-uploadForm.addEventListener('submit', (e) => {
+uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const gameName = document.getElementById('game-name').value;
-    const gameFile = document.getElementById('game-file').files[0];
-    
-    if (!gameName || !gameFile) {
-        alert('Please provide a game name and file.');
+    const files = folderUpload.files;
+
+    if (!gameName || files.length === 0) {
+        alert('Please provide a game name and upload a folder.');
         return;
     }
-    
-    // Add game to the list (for now, we'll just simulate this)
-    const game = { name: gameName, file: gameFile.name };
+
+    // Create ZIP file
+    const zip = new JSZip();
+    for (const file of files) {
+        const relativePath = file.webkitRelativePath.replace(/^[^/]+\/?/, '');
+        zip.file(relativePath, file);
+    }
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+    // Add game to the list (simulate saving)
+    const game = { name: gameName, zipBlob };
     games.push(game);
     renderGames();
-    
+
     // Clear the form
     uploadForm.reset();
 });
@@ -73,14 +82,22 @@ function renderGames() {
         const gameItem = document.createElement('li');
         gameItem.textContent = game.name;
 
+        const downloadZipBtn = document.createElement('button');
+        downloadZipBtn.textContent = 'Download ZIP';
+        downloadZipBtn.classList.add('btn-secondary');
+        downloadZipBtn.addEventListener('click', () => {
+            saveAs(game.zipBlob, `${game.name}.zip`);
+        });
+
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
-        removeBtn.classList.add('btn-secondary');
+        removeBtn.classList.add('btn-danger');
         removeBtn.addEventListener('click', () => {
             games.splice(index, 1);
             renderGames();
         });
 
+        gameItem.appendChild(downloadZipBtn);
         gameItem.appendChild(removeBtn);
         uploadedGames.appendChild(gameItem);
     });
@@ -88,14 +105,14 @@ function renderGames() {
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
+
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
             window.scrollTo({
                 top: target.offsetTop - 70,
-                behavior: 'smooth'
+                behavior: 'smooth',
             });
         }
     });
@@ -105,19 +122,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 function highlightNavLink() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav ul li a');
-    
+
     window.addEventListener('scroll', () => {
         let current = '';
-        
-        sections.forEach(section => {
+
+        sections.forEach((section) => {
             const sectionTop = section.offsetTop - 100;
             const sectionHeight = section.clientHeight;
             if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
                 current = section.getAttribute('id');
             }
         });
-        
-        navLinks.forEach(link => {
+
+        navLinks.forEach((link) => {
             link.classList.remove('active');
             if (link.getAttribute('href') === `#${current}`) {
                 link.classList.add('active');
