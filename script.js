@@ -1,38 +1,67 @@
-// Mock admin authentication (Replace with real authentication in backend)
-const isAdmin = true; // Set to false for non-admin view
+// Admin Authentication
+const ADMIN_PASSWORD = "your-secure-password"; // Change this to a secure password
 
 document.addEventListener('DOMContentLoaded', () => {
-  const uploadSection = document.getElementById('upload-section');
-  const uploadForm = document.getElementById('upload-form');
   const gamesContainer = document.getElementById('games-container');
+  const uploadSection = document.querySelector('.admin-only');
+  const adminLoginBtn = document.getElementById('admin-login-btn');
+  const uploadForm = document.getElementById('upload-form');
 
-  // Show admin panel if admin
-  if (isAdmin) {
-    uploadSection.style.display = 'block';
+  // Fetch Games from GitHub
+  async function fetchGames() {
+    try {
+      const response = await fetch('games.json'); // Replace with actual GitHub API if needed
+      const games = await response.json();
+
+      gamesContainer.innerHTML = '';
+      games.forEach(game => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4';
+        card.innerHTML = `
+          <div class="card">
+            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="${game.name}">
+            <div class="card-body">
+              <h5 class="card-title">${game.name}</h5>
+              <p class="card-text">${game.description}</p>
+              <a href="${game.file}" class="btn btn-primary" download>Download</a>
+            </div>
+          </div>
+        `;
+        gamesContainer.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Error fetching games:', err);
+    }
   }
 
-  // Handle game upload
+  // Handle Admin Login
+  adminLoginBtn.addEventListener('click', () => {
+    const password = prompt('Enter admin password:');
+    if (password === ADMIN_PASSWORD) {
+      alert('Admin access granted.');
+      uploadSection.style.display = 'block';
+    } else {
+      alert('Access denied.');
+    }
+  });
+
+  // Handle Game Upload
   uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const gameName = document.getElementById('game-name').value;
-    const gameFiles = document.getElementById('game-files').files;
+    const gameDescription = document.getElementById('game-description').value;
+    const gameFile = document.getElementById('game-files').value;
 
-    if (!gameName || gameFiles.length === 0) {
-      alert('Please provide a game name and files.');
-      return;
-    }
+    const newGame = { name: gameName, description: gameDescription, file: gameFile };
 
-    // Mock server request (Replace with real backend API call)
-    alert(`Game "${gameName}" uploaded successfully!`);
+    // Push new game to GitHub (requires GitHub API integration)
+    console.log('New game uploaded:', newGame);
 
-    // Add to game list
-    const gameItem = document.createElement('li');
-    gameItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-    gameItem.innerHTML = `<span>${gameName}</span> <a href="#" class="btn btn-sm btn-outline-primary">Download</a>`;
-    gamesContainer.appendChild(gameItem);
-
-    // Reset form
+    // Add to UI
+    fetchGames();
     uploadForm.reset();
   });
+
+  fetchGames();
 });
