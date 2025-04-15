@@ -21,10 +21,66 @@ body {
     font-size: 16px;
     line-height: 1.6;
     color: var(--text-color);
+    margin: 0;
+    padding: 0;
 }
 
-.section-header h2 {
-    text-align: center;
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ===== HEADER ===== */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: var(--bg-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    padding: 1rem 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    font-weight: 500;
+    position: relative;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--primary-dark);
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 /* ===== HERO SECTION ===== */
@@ -35,6 +91,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding-top: 4rem;
 }
 
 .hero h1 {
@@ -50,6 +107,12 @@ body {
 /* ===== GAMES SECTION ===== */
 .games {
     background-color: var(--bg-light);
+    padding: 6rem 0;
+}
+
+.games h2 {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 #games-list {
@@ -69,6 +132,7 @@ body {
 /* ===== ADMIN SECTION ===== */
 .admin {
     background-color: var(--bg-light);
+    padding: 6rem 0;
 }
 
 #upload-form {
@@ -83,12 +147,102 @@ body {
     box-shadow: var(--box-shadow);
 }
 
+#upload-form input,
+#upload-form button {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+#upload-form button {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+#upload-form button:hover {
+    background-color: var(--primary-dark);
+}
+
+#uploaded-games {
+    margin-top: 2rem;
+    list-style: none;
+    padding: 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #uploaded-games li {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0.75rem;
     background-color: var(--bg-color);
     margin: 0.5rem 0;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+}
+
+/* Button Styles for Admin List */
+.btn-secondary {
+    margin-left: 0.5rem;
+    background-color: var(--success);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-danger {
+    margin-left: 0.5rem;
+    background-color: var(--danger);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-danger:hover {
+    background-color: #d32f2f;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background-color: var(--bg-color);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding: 5rem 2rem;
+        transition: 0.5s;
+        z-index: 999;
+    }
+    nav.active {
+        right: 0;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    nav ul li {
+        margin: 1rem 0;
+        width: 100%;
+    }
 }
