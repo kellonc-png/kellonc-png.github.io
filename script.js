@@ -30,7 +30,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Handle folder upload
+// Handle folder upload and zip/rar conversion
 const uploadForm = document.getElementById('upload-form');
 const folderUpload = document.getElementById('folder-upload');
 const gamesList = document.getElementById('games-list');
@@ -39,7 +39,6 @@ let games = []; // Local array to store game data
 
 uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const gameName = document.getElementById('game-name').value;
     const files = folderUpload.files;
 
@@ -48,16 +47,21 @@ uploadForm.addEventListener('submit', async (e) => {
         return;
     }
 
-    // Create ZIP file
+    // Create ZIP file using JSZip
     const zip = new JSZip();
     for (const file of files) {
+        // Remove the top-level folder name from the relative path
         const relativePath = file.webkitRelativePath.replace(/^[^/]+\/?/, '');
         zip.file(relativePath, file);
     }
     const zipBlob = await zip.generateAsync({ type: 'blob' });
 
-    // Add game to the list (simulate saving)
-    const game = { name: gameName, zipBlob };
+    // Stub for RAR file conversion: In this example we simply reuse the ZIP blob.
+    // For a production system, integrate a proper RAR conversion library.
+    const rarBlob = zipBlob; // Stub: Replace with real RAR conversion if available.
+
+    // Save game info (simulate saving)
+    const game = { name: gameName, zipBlob, rarBlob };
     games.push(game);
     renderGames();
 
@@ -67,7 +71,7 @@ uploadForm.addEventListener('submit', async (e) => {
 
 // Render games in both the public and admin sections
 function renderGames() {
-    // Public games list
+    // Render public game list
     gamesList.innerHTML = '';
     games.forEach((game) => {
         const gameItem = document.createElement('div');
@@ -76,12 +80,13 @@ function renderGames() {
         gamesList.appendChild(gameItem);
     });
 
-    // Admin uploaded games list
+    // Render admin game list with download and remove buttons
     uploadedGames.innerHTML = '';
     games.forEach((game, index) => {
         const gameItem = document.createElement('li');
         gameItem.textContent = game.name;
 
+        // Download ZIP button
         const downloadZipBtn = document.createElement('button');
         downloadZipBtn.textContent = 'Download ZIP';
         downloadZipBtn.classList.add('btn-secondary');
@@ -89,6 +94,15 @@ function renderGames() {
             saveAs(game.zipBlob, `${game.name}.zip`);
         });
 
+        // Download RAR button (stub)
+        const downloadRarBtn = document.createElement('button');
+        downloadRarBtn.textContent = 'Download RAR';
+        downloadRarBtn.classList.add('btn-secondary');
+        downloadRarBtn.addEventListener('click', () => {
+            saveAs(game.rarBlob, `${game.name}.rar`);
+        });
+
+        // Remove button
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
         removeBtn.classList.add('btn-danger');
@@ -98,6 +112,7 @@ function renderGames() {
         });
 
         gameItem.appendChild(downloadZipBtn);
+        gameItem.appendChild(downloadRarBtn);
         gameItem.appendChild(removeBtn);
         uploadedGames.appendChild(gameItem);
     });
@@ -107,7 +122,6 @@ function renderGames() {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
             window.scrollTo({
@@ -118,14 +132,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Add active class to nav link based on scroll position
+// Highlight nav links based on scroll position
 function highlightNavLink() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav ul li a');
-
     window.addEventListener('scroll', () => {
         let current = '';
-
         sections.forEach((section) => {
             const sectionTop = section.offsetTop - 100;
             const sectionHeight = section.clientHeight;
@@ -133,7 +145,6 @@ function highlightNavLink() {
                 current = section.getAttribute('id');
             }
         });
-
         navLinks.forEach((link) => {
             link.classList.remove('active');
             if (link.getAttribute('href') === `#${current}`) {
@@ -143,5 +154,5 @@ function highlightNavLink() {
     });
 }
 
-// Initialize functions
+// Initialize nav highlight function
 highlightNavLink();
