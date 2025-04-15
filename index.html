@@ -11,7 +11,7 @@
   <!-- Hero Section -->
   <header class="bg-primary text-white text-center py-5">
     <div class="container">
-      <h1>Kel's Unlocked Games</h1>
+      <h1 class="display-3">Kel's Unlocked Games</h1>
       <p class="lead">Your gateway to the best free games. Play, share, and download now!</p>
       <button class="btn btn-light btn-lg mt-3" onclick="scrollToGames()">Explore Games</button>
     </div>
@@ -41,8 +41,8 @@
           <textarea id="game-description" class="form-control" rows="3" required></textarea>
         </div>
         <div class="mb-3">
-          <label for="game-files" class="form-label">Game File (URL to .zip/.rar)</label>
-          <input type="url" id="game-files" class="form-control" placeholder="https://example.com/game.zip" required>
+          <label for="game-folder" class="form-label">Upload Folder</label>
+          <input type="file" id="game-folder" class="form-control" webkitdirectory directory required>
         </div>
         <button type="submit" class="btn btn-primary w-100">Upload Game</button>
       </form>
@@ -57,6 +57,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
