@@ -26,64 +26,63 @@ window.addEventListener('scroll', () => {
         header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
     } else {
         header.style.padding = '1rem 0';
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        header.style.boxShadow = 'none';
     }
 });
 
-// Portfolio filtering
-const filterBtns = document.querySelectorAll('.filter-btn');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
+// Handle game upload
+const uploadForm = document.getElementById('upload-form');
+const gamesList = document.getElementById('games-list');
+const uploadedGames = document.getElementById('uploaded-games');
+let games = []; // Local array to store game data
 
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class from all buttons and add to current
-        filterBtns.forEach(filterBtn => {
-            filterBtn.classList.remove('active');
-        });
-        btn.classList.add('active');
-        
-        const filterValue = btn.getAttribute('data-filter');
-        
-        portfolioItems.forEach(item => {
-            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                item.style.display = 'block';
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'scale(1)';
-                }, 100);
-            } else {
-                item.style.opacity = '0';
-                item.style.transform = 'scale(0.8)';
-                setTimeout(() => {
-                    item.style.display = 'none';
-                }, 300);
-            }
-        });
-    });
+uploadForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const gameName = document.getElementById('game-name').value;
+    const gameFile = document.getElementById('game-file').files[0];
+    
+    if (!gameName || !gameFile) {
+        alert('Please provide a game name and file.');
+        return;
+    }
+    
+    // Add game to the list (for now, we'll just simulate this)
+    const game = { name: gameName, file: gameFile.name };
+    games.push(game);
+    renderGames();
+    
+    // Clear the form
+    uploadForm.reset();
 });
 
-// Form submission
-const contactForm = document.querySelector('.contact-form form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value;
-        
-        // Simple form validation
-        if (!name || !email || !message) {
-            alert('Please fill all required fields.');
-            return;
-        }
-        
-        // Here you would typically send the form data to a server
-        // For this example, we'll just show a success message
-        alert('Thank you for your message! We will get back to you soon.');
-        contactForm.reset();
+// Render games in both the public and admin sections
+function renderGames() {
+    // Public games list
+    gamesList.innerHTML = '';
+    games.forEach((game) => {
+        const gameItem = document.createElement('div');
+        gameItem.classList.add('game-item');
+        gameItem.textContent = game.name;
+        gamesList.appendChild(gameItem);
+    });
+
+    // Admin uploaded games list
+    uploadedGames.innerHTML = '';
+    games.forEach((game, index) => {
+        const gameItem = document.createElement('li');
+        gameItem.textContent = game.name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.classList.add('btn-secondary');
+        removeBtn.addEventListener('click', () => {
+            games.splice(index, 1);
+            renderGames();
+        });
+
+        gameItem.appendChild(removeBtn);
+        uploadedGames.appendChild(gameItem);
     });
 }
 
@@ -101,23 +100,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// Newsletter form submission
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const emailInput = newsletterForm.querySelector('input[type="email"]');
-        
-        if (!emailInput.value) {
-            alert('Please enter your email address.');
-            return;
-        }
-        
-        alert('Thank you for subscribing to our newsletter!');
-        newsletterForm.reset();
-    });
-}
 
 // Add active class to nav link based on scroll position
 function highlightNavLink() {
@@ -146,20 +128,3 @@ function highlightNavLink() {
 
 // Initialize functions
 highlightNavLink();
-
-// Testimonial slider / carousel (simplified version)
-// A full implementation would use a carousel library or more complex JavaScript
-const testimonials = document.querySelectorAll('.testimonial-item');
-let currentIndex = 0;
-
-function showTestimonial(index) {
-    testimonials.forEach((testimonial, i) => {
-        testimonial.style.opacity = i === index ? '1' : '0.3';
-        testimonial.style.transform = i === index ? 'scale(1.05)' : 'scale(0.95)';
-    });
-}
-
-// Initialize the first testimonial as active
-if (testimonials.length > 0) {
-    showTestimonial(0);
-}
