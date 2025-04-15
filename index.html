@@ -1,101 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>03 Mini the Professional</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kel's Unlocked Games</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1 class="logo">03 Mini the Professional</h1>
-            <nav>
-                <ul>
-                    <li><a href="#intro" class="active">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+  <header class="bg-dark text-white text-center py-3">
+    <h1>Kel's Unlocked Games</h1>
+    <p>The ultimate destination for free games!</p>
+  </header>
+  <main class="container my-4">
+    <!-- Admin Panel (Visible Only to Admin) -->
+    <section id="upload-section" class="admin-only mb-5">
+      <h2 class="text-center">Admin Panel</h2>
+      <form id="upload-form" class="p-3 border rounded bg-light">
+        <div class="mb-3">
+          <label for="game-name" class="form-label">Game Name</label>
+          <input type="text" id="game-name" class="form-control" required>
         </div>
-    </header>
-
-    <section id="intro" class="hero">
-        <div class="container">
-            <h2>Welcome to 03 Mini the Professional</h2>
-            <p>We craft elegant digital solutions that exude professionalism and modern design.</p>
-            <a href="#portfolio" class="btn">View Portfolio</a>
+        <div class="mb-3">
+          <label for="game-files" class="form-label">Upload Game Files</label>
+          <input type="file" id="game-files" class="form-control" webkitdirectory directory multiple required>
         </div>
+        <button type="submit" class="btn btn-primary w-100">Upload Game</button>
+      </form>
     </section>
-
-    <section id="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-                <div class="service-item">
-                    <h3>Web Design</h3>
-                    <p>Minimalistic yet striking designs that communicate your brand effectively.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Development</h3>
-                    <p>Professional and efficient coding to build robust, scalable websites.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Branding</h3>
-                    <p>Creating compelling brand identities that stand out in the market.</p>
-                </div>
-            </div>
-        </div>
+    <!-- Games List -->
+    <section id="games-list">
+      <h2 class="text-center">Available Games</h2>
+      <ul id="games-container" class="list-group">
+        <!-- Games will be dynamically populated here -->
+      </ul>
     </section>
-
-    <section id="portfolio">
-        <div class="container">
-            <h2>Portfolio</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/400x300" alt="Project 1">
-                    <div class="portfolio-overlay">
-                        <h3>Project One</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/400x300" alt="Project 2">
-                    <div class="portfolio-overlay">
-                        <h3>Project Two</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/400x300" alt="Project 3">
-                    <div class="portfolio-overlay">
-                        <h3>Project Three</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <form id="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 03 Mini the Professional. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  </main>
+  <footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 Kel's Unlocked Games. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
