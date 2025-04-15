@@ -51,15 +51,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const gameName = document.getElementById('game-name').value;
     const gameDescription = document.getElementById('game-description').value;
-    const gameFile = document.getElementById('game-files').value;
+    const gameFolder = document.getElementById('game-folder').files;
 
-    const newGame = { name: gameName, description: gameDescription, file: gameFile };
+    if (!gameFolder || gameFolder.length === 0) {
+      alert('Please select a folder to upload.');
+      return;
+    }
 
-    // Push new game to GitHub (requires GitHub API integration)
-    console.log('New game uploaded:', newGame);
+    // Zip the folder using JSZip
+    const zip = new JSZip();
+    for (const file of gameFolder) {
+      zip.file(file.webkitRelativePath, file);
+    }
 
-    // Add to UI
-    fetchGames();
+    const zipContent = await zip.generateAsync({ type: 'blob' });
+
+    // Mock upload to GitHub (replace this with actual GitHub API call)
+    const zipFileName = `${gameName.replace(/\s+/g, '_')}.zip`;
+    console.log(`Uploading ${zipFileName}...`);
+
+    // Add new game to UI (in a real app, this would come from GitHub)
+    const newGame = { name: gameName, description: gameDescription, file: URL.createObjectURL(zipContent) };
+    fetchGames(); // Refresh game list
     uploadForm.reset();
   });
 
