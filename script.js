@@ -60,3 +60,11 @@ function updateLastAIMessage(text) {
   const last = messages[messages.length - 1];
   if (last) last.textContent = text;
 }
+
+// === THEME TOGGLE ===
+function toggleTheme() {
+  const body = document.body;
+  const icon = document.getElementById("theme-icon");
+  const isDark = body.classList.toggle("dark");
+  icon.textContent = isDark ? "☀️" : "🌙";
+}
