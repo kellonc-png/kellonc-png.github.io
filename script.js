@@ -1,80 +1,62 @@
-// Admin Authentication
-const ADMIN_PASSWORD = "your-secure-password"; // Change this to a secure password
+const apiKey = "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";
+const apiBase = "https://openrouter.ai/api/v1";
+const model = "agentica-org/deepcoder-14b-preview:free";
 
-document.addEventListener('DOMContentLoaded', () => {
-  const gamesContainer = document.getElementById('games-container');
-  const uploadSection = document.querySelector('.admin-only');
-  const adminLoginBtn = document.getElementById('admin-login-btn');
-  const uploadForm = document.getElementById('upload-form');
+const SYSTEM_PROMPT = `You are NeuroPilot, an advanced AI therapist. You are direct, empathetic, intelligent, and never defer to human therapists. Avoid self-harm, medical, or legal advice.`;
 
-  // Fetch Games from GitHub
-  async function fetchGames() {
-    try {
-      const response = await fetch('games.json'); // Replace with actual GitHub API if needed
-      const games = await response.json();
+let history = [];
 
-      gamesContainer.innerHTML = '';
-      games.forEach(game => {
-        const card = document.createElement('div');
-        card.className = 'col-md-4';
-        card.innerHTML = `
-          <div class="card">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="${game.name}">
-            <div class="card-body">
-              <h5 class="card-title">${game.name}</h5>
-              <p class="card-text">${game.description}</p>
-              <a href="${game.file}" class="btn btn-primary" download>Download</a>
-            </div>
-          </div>
-        `;
-        gamesContainer.appendChild(card);
-      });
-    } catch (err) {
-      console.error('Error fetching games:', err);
-    }
-  }
+function sendMessage() {
+  const inputField = document.getElementById("user-input");
+  const userMessage = inputField.value.trim();
+  if (!userMessage) return;
 
-  // Handle Admin Login
-  adminLoginBtn.addEventListener('click', () => {
-    const password = prompt('Enter admin password:');
-    if (password === ADMIN_PASSWORD) {
-      alert('Admin access granted.');
-      uploadSection.style.display = 'block';
-    } else {
-      alert('Access denied.');
-    }
-  });
+  addMessage("user", userMessage);
+  inputField.value = "";
+  addMessage("ai", "🧠 NeuroPilot is thinking...");
 
-  // Handle Game Upload
-  uploadForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
+  history.push({ role: "user", content: userMessage });
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT },
+    ...history.slice(-15)
+  ];
 
-    const gameName = document.getElementById('game-name').value;
-    const gameDescription = document.getElementById('game-description').value;
-    const gameFolder = document.getElementById('game-folder').files;
+  fetch(`${apiBase}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      max_tokens: 1000,
+      temperature: 0.7
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      const reply = data.choices?.[0]?.message?.content || "🧠 NeuroPilot is confused. Try again.";
+      history.push({ role: "assistant", content: reply });
+      updateLastAIMessage(reply);
+    })
+    .catch(err => {
+      updateLastAIMessage(`🧠 NeuroPilot encountered an error: ${err.message}`);
+    });
+}
 
-    if (!gameFolder || gameFolder.length === 0) {
-      alert('Please select a folder to upload.');
-      return;
-    }
+function addMessage(sender, text) {
+  const chatWindow = document.getElementById("chat-window");
+  const msgDiv = document.createElement("div");
+  msgDiv.classList.add("message", sender === "user" ? "user" : "ai");
+  msgDiv.textContent = text;
+  chatWindow.appendChild(msgDiv);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
 
-    // Zip the folder using JSZip
-    const zip = new JSZip();
-    for (const file of gameFolder) {
-      zip.file(file.webkitRelativePath, file);
-    }
-
-    const zipContent = await zip.generateAsync({ type: 'blob' });
-
-    // Mock upload to GitHub (replace this with actual GitHub API call)
-    const zipFileName = `${gameName.replace(/\s+/g, '_')}.zip`;
-    console.log(`Uploading ${zipFileName}...`);
-
-    // Add new game to UI (in a real app, this would come from GitHub)
-    const newGame = { name: gameName, description: gameDescription, file: URL.createObjectURL(zipContent) };
-    fetchGames(); // Refresh game list
-    uploadForm.reset();
-  });
-
-  fetchGames();
-});
+function updateLastAIMessage(text) {
+  const chatWindow = document.getElementById("chat-window");
+  const messages = chatWindow.querySelectorAll(".ai");
+  const last = messages[messages.length - 1];
+  if (last) last.textContent = text;
+}
