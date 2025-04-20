@@ -6,7 +6,11 @@
   <title>NeuroPilot 🧠</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="light">
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span>
+  </div>
+  
   <div class="container">
     <h1>NeuroPilot 🧠</h1>
     <div id="chat-window"></div>
@@ -15,6 +19,7 @@
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
